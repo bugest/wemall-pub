@@ -1,0 +1,16 @@
+/.settings
+/
+/.git/
+/.project
+/wemall-pub-api/.settings/
+/wemall-pub-api/target/
+/wemall-pub-api/.classpath
+/wemall-pub-api/.project
+/wemall-pub-impl/.settings/
+/wemall-pub-impl/target/
+/wemall-pub-impl/.classpath
+/wemall-pub-impl/.project
+/wemall-pub-web/.settings/
+/wemall-pub-web/target/
+/wemall-pub-web/.classpath
+/wemall-pub-web/.project
