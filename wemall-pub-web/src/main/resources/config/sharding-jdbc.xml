@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rdb="http://www.dangdang.com/schema/ddframe/rdb"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd
+                        http://www.dangdang.com/schema/ddframe/rdb
+                        http://www.dangdang.com/schema/ddframe/rdb/rdb.xsd">
+
+	<bean id="statFilter" class="com.alibaba.druid.filter.logging.Slf4jLogFilter">
+		<property name="statementExecutableSqlLogEnable" value="false" />
+		<property name="dataSourceLogEnabled" value="false" />
+	</bean>
+	<bean id="logFilter" class="com.alibaba.druid.filter.stat.StatFilter">
+		<property name="slowSqlMillis" value="50" />
+		<property name="logSlowSql" value="false" />
+		<property name="mergeSql" value="true" />
+	</bean>
+
+	<bean id="master0" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="username" value="root" />
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/share" />
+		<property name="password" value="123456" />
+		<property name="maxActive" value="10" />
+		<property name="initialSize" value="1" />
+		<property name="maxWait" value="60000" />
+		<property name="minIdle" value="1" />
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="50" />
+		<property name="maxOpenPreparedStatements" value="100" />
+		<property name="proxyFilters">
+			<list>
+				<ref bean="statFilter" />
+				<ref bean="logFilter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="master1" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="username" value="root" />
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/wemall-business" />
+		<property name="password" value="123456" />
+		<property name="maxActive" value="10" />
+		<property name="initialSize" value="1" />
+		<property name="maxWait" value="60000" />
+		<property name="minIdle" value="1" />
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+		<property name="validationQuery" value="SELECT 'x'" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="50" />
+		<property name="maxOpenPreparedStatements" value="100" />
+		<property name="proxyFilters">
+			<list>
+				<ref bean="statFilter" />
+				<ref bean="logFilter" />
+			</list>
+		</property>
+	</bean>
+	<rdb:master-slave-data-source id="rbb_0"
+		master-data-source-ref="master0" slave-data-sources-ref="master0" />
+	<rdb:master-slave-data-source id="rbb_1"
+		master-data-source-ref="master1" slave-data-sources-ref="master1" />
+
+	<rdb:strategy id="idDbSharding" sharding-columns="id"
+		algorithm-class="com.wemall.sharejdbc.DbAlgorithm" />
+
+	<rdb:strategy id="idTbSharding" sharding-columns="id"
+		algorithm-class="com.wemall.sharejdbc.TbAlgorithm" />
+
+	<rdb:data-source id="wholeDataSource">
+		<rdb:sharding-rule data-sources="rbb_0,rbb_1">
+			<rdb:table-rules>
+				<rdb:table-rule logic-table="shop_categories"
+					actual-tables="shop_categories_0,shop_categories_1"
+					database-strategy="idDbSharding" table-strategy="idTbSharding" />
+			</rdb:table-rules>
+		</rdb:sharding-rule>
+	</rdb:data-source>
+
+</beans>

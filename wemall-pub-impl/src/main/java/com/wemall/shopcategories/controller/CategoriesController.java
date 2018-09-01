@@ -75,4 +75,10 @@ public class CategoriesController {
 	public PageInfo<Categories> selectCategoriesByCondition(Integer id, String name, int pageNow, int pageSize) {
 		return categoriesService.selectCategoriesByCondition(id, name, pageNow, pageSize);
 	}
+	
+	@ResponseBody
+	@RequestMapping("insert") 
+	public int insert(Categories categories) {
+		return categoriesService.insert(categories);
+	}
 }

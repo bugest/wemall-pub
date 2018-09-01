@@ -89,7 +89,8 @@ public class CategoriesServiceImpl implements CategoriesService {
 	@Transactional
 	public Categories selectByPrimaryKey(Integer id) {
 		// TODO Auto-generated method stub
-		return categoriesDao.selectByPrimaryKey(id);
+		Categories categories = categoriesDao.selectByPrimaryKey(id);
+		return categories;
 	}
 
 	@CacheEvict(key = "'CategoryModelList'")
@@ -169,6 +170,11 @@ public class CategoriesServiceImpl implements CategoriesService {
 		List<Categories> categoriesList = categoriesDao.selectCategoriesByCondition(categories);
 		PageInfo<Categories> pageInfo = new PageInfo<Categories>(categoriesList);
 		return pageInfo;
+	}
+
+	public int insert(Categories categories) {
+		// TODO Auto-generated method stub
+		return categoriesDao.insert(categories);
 	}
 
 }
