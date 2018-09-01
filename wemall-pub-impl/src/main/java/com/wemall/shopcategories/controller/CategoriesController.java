@@ -5,9 +5,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageInfo;
 import com.wemall.shopcategories.entity.Categories;
 import com.wemall.shopcategories.model.CategoryModel;
 import com.wemall.shopcategories.service.CategoriesService;
@@ -55,4 +57,22 @@ public class CategoriesController {
 		categoriesService.removeCategoryModelList();
 	}
 
+	/** 
+	* @Title: selectAllCates 
+	* @Description: TODO(这里用一句话描述这个方法的作用) 
+	* @param @return    设定文件 
+	* @return List<Categories>    返回类型 
+	* @throws 
+	*/
+	@ResponseBody
+	@RequestMapping("selectAllCates") 
+	public PageInfo<Categories> selectAllCates(int pageNow, int pageSize) {
+		return categoriesService.selectAllCates(pageNow, pageSize);
+	}
+	
+	@ResponseBody
+	@RequestMapping("selectCategoriesByCondition") 
+	public PageInfo<Categories> selectCategoriesByCondition(Integer id, String name, int pageNow, int pageSize) {
+		return categoriesService.selectCategoriesByCondition(id, name, pageNow, pageSize);
+	}
 }

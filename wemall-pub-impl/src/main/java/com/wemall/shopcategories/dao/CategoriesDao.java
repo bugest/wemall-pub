@@ -54,4 +54,7 @@ public interface CategoriesDao {
     int updateByPrimaryKey(Categories record);
     
     List<Categories> selectAllCategories();
+    
+    List<Categories> selectCategoriesByCondition(Categories record);
+    
 }

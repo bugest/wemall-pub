@@ -11,6 +11,8 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wemall.shopcategories.dao.CategoriesDao;
 import com.wemall.shopcategories.entity.Categories;
 import com.wemall.shopcategories.model.CategoryModel;
@@ -150,4 +152,23 @@ public class CategoriesServiceImpl implements CategoriesService {
 		categoryModelList.add(0, categoryModel);
 		return categoryModelList;
 	}
+	
+	
+	public PageInfo<Categories> selectAllCates(int pageNow, int pageSize) {
+		PageHelper.startPage(pageNow, pageSize);
+		List<Categories> categoriesList = categoriesDao.selectAllCategories();
+		PageInfo<Categories> pageInfo = new PageInfo<Categories>(categoriesList);
+		return pageInfo;
+	}
+	
+	public PageInfo<Categories> selectCategoriesByCondition(Integer id, String name,int pageNow, int pageSize) {
+		//PageHelper.startPage(pageNow, pageSize);
+		Categories categories = new Categories();
+		categories.setName(name);
+		categories.setId(id);
+		List<Categories> categoriesList = categoriesDao.selectCategoriesByCondition(categories);
+		PageInfo<Categories> pageInfo = new PageInfo<Categories>(categoriesList);
+		return pageInfo;
+	}
+
 }
