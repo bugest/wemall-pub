@@ -2,10 +2,11 @@ package com.wemall.shopcategories.controller;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -80,5 +81,9 @@ public class CategoriesController {
 	@RequestMapping("insert") 
 	public int insert(Categories categories) {
 		return categoriesService.insert(categories);
+	}
+	@PostConstruct
+	public void test() {
+		System.out.println("11111111111111111");
 	}
 }

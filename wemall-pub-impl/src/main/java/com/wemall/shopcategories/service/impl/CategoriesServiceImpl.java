@@ -163,7 +163,7 @@ public class CategoriesServiceImpl implements CategoriesService {
 	}
 	
 	public PageInfo<Categories> selectCategoriesByCondition(Integer id, String name,int pageNow, int pageSize) {
-		//PageHelper.startPage(pageNow, pageSize);
+		PageHelper.startPage(pageNow, pageSize);
 		Categories categories = new Categories();
 		categories.setName(name);
 		categories.setId(id);

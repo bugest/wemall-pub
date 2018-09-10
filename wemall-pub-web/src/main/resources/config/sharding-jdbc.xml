@@ -87,7 +87,8 @@
 			<rdb:table-rules>
 				<rdb:table-rule logic-table="shop_categories"
 					actual-tables="shop_categories_0,shop_categories_1"
-					database-strategy="idDbSharding" table-strategy="idTbSharding" />
+					database-strategy="idDbSharding" table-strategy="idTbSharding" /> 
+
 			</rdb:table-rules>
 		</rdb:sharding-rule>
 	</rdb:data-source>
