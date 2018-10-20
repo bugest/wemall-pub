@@ -236,10 +236,9 @@ public class ActivitiService {
      * @param logid
      * @return: void
      */
-    @Transactional
     public void flowoutTask(WorkFlowBean workflowBean, String logid, String state) {
         // 获取任务ID
-        String taskId = workflowBean.getTaskId();
+        /*String taskId = workflowBean.getTaskId();
         String assignee = workflowBean.getAssignee();
         // 获取请假单ID
         String id = workflowBean.getId();
@@ -248,7 +247,7 @@ public class ActivitiService {
                 .taskId(taskId)// 使用任务ID查询
                 .singleResult();
         // 获取流程实例ID
-        String processInstanceId = task.getProcessInstanceId();
+        String processInstanceId = task.getProcessInstanceId();*/
         /**
          * 注意：添加批注的时候，由于Activiti底层代码是使用： String userId =
          * Authentication.getAuthenticatedUserId(); CommentEntity comment = new
@@ -257,26 +256,28 @@ public class ActivitiService {
          * 不过不添加审核人，该字段为null
          * 所以要求，添加配置执行使用Authentication.setAuthenticatedUserId();添加当前任务的审核人
          */
-        Authentication.setAuthenticatedUserId(logid);
+        /*Authentication.setAuthenticatedUserId(logid);*/
         /**
          * 2：如果连线的名称是“默认提交”，那么就不需要设置，如果不是，就需要设置流程变量 在完成任务之前，设置流程变量，按照连线的名称，去完成任务
          * 流程变量的名称：outcome 流程变量的值：连线的名称
          */
-        Map<String, Object> variables = new HashMap<String, Object>();
-
+        /*Map<String, Object> variables = new HashMap<String, Object>();
+        variables.put("assignee", assignee);
+        variables.put("user", assignee);
+        variables.put("taskId", taskId);
         // 3：使用任务ID，完成当前人的个人任务，同时流程变量
-        taskService.complete(taskId, variables);
+*/        taskService.complete(workflowBean.getTaskId());
         // 4：当任务完成之后，需要指定下一个任务的办理人（使用类）-----已经开发完成
 
         /**
          * 5：在完成任务之后，判断流程是否结束 如果流程结束了，更新请假单表的状态从1变成2（审核中-->审核完成）
          */
-        ProcessInstance pi = runtimeService.createProcessInstanceQuery()//
+        /*ProcessInstance pi = runtimeService.createProcessInstanceQuery()//
                 .processInstanceId(processInstanceId)// 使用流程实例ID查询
-                .singleResult();
+                .singleResult();*/
         /*
          * if(pi==null){ //更新请假单表的状态从1变成2（审核中-->审核完成） HRDimission bill =
-         * leaveBillDaoInterface.findLeaveBillById(id); bill.setState(2); }
+         * leaveBillDaoInterface.findLeaveBillById(id); bill.set`(2); }
          */
 
     }

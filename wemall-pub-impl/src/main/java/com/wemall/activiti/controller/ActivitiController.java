@@ -31,6 +31,7 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.impl.interceptor.Command;
 import org.apache.commons.io.IOUtils;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,6 +44,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.wemal.common.model.PageData;
+import com.wemall.activiti.model.WorkFlowBean;
 import com.wemall.activiti.service.impl.ActivitiService;
 import com.wemall.common.utils.ProcessDefinitionDiagramCmd;
 import com.wemall.transfer.model.HRWorkFlowBean;
@@ -234,6 +236,15 @@ public class ActivitiController {
         return "redirect:viewprocessdef";
     }
 
+    @RequestMapping("deploy")
+    public void deploy(String filepath, String filename) {
+    	File myfile = new File(filepath);
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
+        String dateStr = format.format(new Date());
+    	activitiService.saveNewDeploy(myfile, dateStr + '-' + filename);
+    }
+    
+    
     /**
      * 上传流程
      *
@@ -344,4 +355,13 @@ public class ActivitiController {
         IOUtils.copy(is, response.getOutputStream());
     }
     
+    @RequestMapping("start")
+    public void startProcess(String key, String id, String logid) {
+    	activitiService.saveStartProcess(key, id,  logid);
+    }
+    
+    @RequestMapping("flowoutTask")
+    public void flowoutTask(WorkFlowBean workflowBean, String logid, String state) {
+    	activitiService.flowoutTask(workflowBean, logid, state);
+    }
 }

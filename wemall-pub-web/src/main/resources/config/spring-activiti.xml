@@ -50,5 +50,12 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="historyService" factory-bean="processEngine" factory-method="getHistoryService" />
 	<bean id="formService" factory-bean="processEngine" factory-method="getFormService" />
 	<bean id="managementService" factory-bean="processEngine" factory-method="getManagementService" />
-	
+
+	<!-- 配置 文件上传的支持 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="1024000000" />
+		<property name="resolveLazily" value="true" />
+		<property name="maxInMemorySize" value="4096" />
+	</bean>
 </beans>

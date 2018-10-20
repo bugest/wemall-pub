@@ -85,12 +85,14 @@ public class CategoriesServiceImpl implements CategoriesService {
 		// 将全部商家的id加入
 		categoryModelList.add(0, categoryModel);
 		return categoryModelList;
+		//return null;
 	}
 	@Transactional
 	public Categories selectByPrimaryKey(Integer id) {
 		// TODO Auto-generated method stub
 		Categories categories = categoriesDao.selectByPrimaryKey(id);
-		return categories;
+		//return categories;
+		return null;
 	}
 
 	@CacheEvict(key = "'CategoryModelList'")
