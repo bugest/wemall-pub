@@ -2,6 +2,9 @@ package com.wemall.shopcategories.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
@@ -13,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.wemall.shopcategories.controller.GetList;
 import com.wemall.shopcategories.dao.CategoriesDao;
 import com.wemall.shopcategories.entity.Categories;
 import com.wemall.shopcategories.model.CategoryModel;
@@ -40,7 +44,7 @@ public class CategoriesServiceImpl implements CategoriesService {
 		return categoriesDao.selectAllCategories();
 	}
 
-	@Cacheable(key = "'CategoryModelList'")
+	//@Cacheable(key = "'CategoryModelList'")
 	public List<CategoryModel> getCategoryModelList() {
 		List<Categories> categoriesList = categoriesDao.selectAllCategories();
 		// 首先增加全部商家
@@ -157,11 +161,21 @@ public class CategoriesServiceImpl implements CategoriesService {
 	}
 	
 	
-	public PageInfo<Categories> selectAllCates(int pageNow, int pageSize) {
-		PageHelper.startPage(pageNow, pageSize);
+	public List<Categories> selectAllCates(int pageNow, int pageSize) {
+		/*PageHelper.startPage(pageNow, pageSize);
 		List<Categories> categoriesList = categoriesDao.selectAllCategories();
 		PageInfo<Categories> pageInfo = new PageInfo<Categories>(categoriesList);
-		return pageInfo;
+		return pageInfo;*/
+		List<Categories> list = new ArrayList<Categories>();
+		
+		ExecutorService a = Executors.newFixedThreadPool(3);
+		Future f1 = a.submit(new GetList(list, 10, 1, categoriesDao));
+		Future f2 = a.submit(new GetList(list, 10, 2, categoriesDao));
+		Future f3 = a.submit(new GetList(list, 10, 3, categoriesDao));
+		while (!f1.isDone() || !f2.isDone() || !f3.isDone()) {
+			
+		}
+		return list;
 	}
 	
 	public PageInfo<Categories> selectCategoriesByCondition(Integer id, String name,int pageNow, int pageSize) {

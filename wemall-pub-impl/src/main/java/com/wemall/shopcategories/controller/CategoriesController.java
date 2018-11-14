@@ -67,7 +67,7 @@ public class CategoriesController {
 	*/
 	@ResponseBody
 	@RequestMapping("selectAllCates") 
-	public PageInfo<Categories> selectAllCates(int pageNow, int pageSize) {
+	public List<Categories> selectAllCates(int pageNow, int pageSize) {
 		return categoriesService.selectAllCates(pageNow, pageSize);
 	}
 	
