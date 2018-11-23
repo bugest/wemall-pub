@@ -25,7 +25,11 @@ import com.wemall.shopcategories.service.CategoriesService;
 @Service
 @CacheConfig(cacheNames = "categories")
 public class CategoriesServiceImpl implements CategoriesService {
-
+	
+	public CategoriesServiceImpl() {
+		System.out.println("122222222222");
+	}
+	
 	@Autowired
 	private CategoriesDao categoriesDao;
 

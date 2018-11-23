@@ -1,0 +1,48 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+    http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd  ">
+	
+<!-- 	<bean id="configproperties_disconf"
+      class="com.baidu.disconf.client.addons.properties.ReloadablePropertiesFactoryBean">
+    <property name="locations">
+        <list>
+            <value>classpath:/autoconfig.properties</value>
+            <value>classpath:/autoconfig2.properties</value>
+            <value>classpath:/myserver_slave.properties</value>
+            <value>classpath:/testJson.json</value>
+            <value>classpath:/testXml2.xml</value>
+            <value>myserver.properties</value>
+        </list>
+    </property>
+	</bean>
+
+	<bean id="propertyConfigurer"
+	      class="com.baidu.disconf.client.addons.properties.ReloadingPropertyPlaceholderConfigurer">
+	    <property name="propertiesArray">
+	        <list>
+	            <ref bean="configproperties_disconf"/>
+	        </list>
+	    </property>
+	</bean>
+	
+	<bean id="autoService" class="com.example.disconf.demo.service.AutoService">
+	    <property name="auto" value="${auto=100}"/>
+	</bean>
+	 -->
+	
+	<!-- 使用disconf必须添加以下配置 -->
+	<bean id="disconfMgrBean" class="com.baidu.disconf.client.DisconfMgrBean"
+		destroy-method="destroy">
+		<property name="scanPackage" value="com.example.disconf.demo.config,com.example.disconf.demo.service.callbacks,com.example.disconf.demo.service" />
+	</bean>
+	<bean id="disconfMgrBean2" class="com.baidu.disconf.client.DisconfMgrBeanSecond"
+		init-method="init" destroy-method="destroy">
+	</bean>
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	
+
+</beans>  
+ 

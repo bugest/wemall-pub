@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.disconf.demo.config.JedisConfigTest;
 import com.github.pagehelper.PageInfo;
 import com.wemall.shopcategories.entity.Categories;
 import com.wemall.shopcategories.model.CategoryModel;
 import com.wemall.shopcategories.service.CategoriesService;
+
 
 @Controller
 @RequestMapping("/categories")
@@ -21,6 +23,9 @@ public class CategoriesController {
 
 	@Autowired
 	private CategoriesService categoriesService;
+	
+	@Autowired
+	private JedisConfigTest jedisConfigTest;
 	
 	@ResponseBody
 	@RequestMapping("/selectAllCategories")
@@ -68,6 +73,7 @@ public class CategoriesController {
 	@ResponseBody
 	@RequestMapping("selectAllCates") 
 	public List<Categories> selectAllCates(int pageNow, int pageSize) {
+		jedisConfigTest.getHost();
 		return categoriesService.selectAllCates(pageNow, pageSize);
 	}
 	
