@@ -1,0 +1,1 @@
+dubboContextFilter=com.wemall.bean.test.impl.DubboContextFilter

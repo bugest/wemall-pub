@@ -21,6 +21,9 @@ import com.wemall.shopcategories.service.CategoriesService;
 @RequestMapping("/categories")
 public class CategoriesController {
 
+	public CategoriesController() {
+		System.out.println("okle");
+	}
 	@Autowired
 	private CategoriesService categoriesService;
 	

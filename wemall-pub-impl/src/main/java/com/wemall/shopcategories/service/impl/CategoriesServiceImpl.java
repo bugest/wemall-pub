@@ -14,6 +14,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.dubbo.rpc.RpcContext;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wemall.shopcategories.controller.GetList;
@@ -43,13 +44,14 @@ public class CategoriesServiceImpl implements CategoriesService {
 	 * = categoriesDao.selectAllCategories(); // 把目录写入缓存
 	 * //redisTemplateUtil.set("allCategories", allCategories); }
 	 */
-	// @Cacheable(key="allCategories")
+	//@Cacheable(value ="cache1",key="allCategories")
 	public List<Categories> selectAllCategories() {
 		return categoriesDao.selectAllCategories();
 	}
 
-	//@Cacheable(key = "'CategoryModelList'")
+	@Cacheable(value ="cache1",key = "'CategoryModelList'")
 	public List<CategoryModel> getCategoryModelList() {
+		Object object = RpcContext.getContext().get("token");
 		List<Categories> categoriesList = categoriesDao.selectAllCategories();
 		// 首先增加全部商家
 		CategoryModel categoryModel = new CategoryModel();
