@@ -16,7 +16,9 @@
 	<!-- 真正可以产生Connection的ConnectionFactory，由对应的 JMS服务厂商提供 -->
 	<!-- 如果连接网络：tcp://ip:61616；未连接网络：tcp://localhost:61616 以及用户名，密码 -->
 	<amq:connectionFactory id="amqConnectionFactory"
-		brokerURL="failover:(tcp://127.0.0.1:61616,tcp://127.0.0.1:61617,tcp://127.0.0.1:61618)?randomize=false" userName="admin" password="admin" exclusiveConsumer="false" />
+		brokerURL="failover:(tcp://127.0.0.1:61616,tcp://127.0.0.1:61617,tcp://127.0.0.1:61618)?randomize=false" userName="admin" password="admin" exclusiveConsumer="false" >
+		<property name="prefetchPolicy" ref="prefetchPolicy"></property>
+		</amq:connectionFactory>
 
 	<!-- Spring Caching连接工厂 -->
 	<!-- Spring用于管理真正的ConnectionFactory的ConnectionFactory -->
@@ -54,13 +56,14 @@
 	<bean id="myMessageHandler1" class="com.wemall.activemq.service.impl.MyMessageListener1" />
 
 	<!-- 消息消费者 start -->
-
+	<bean id="prefetchPolicy" class="org.apache.activemq.ActiveMQPrefetchPolicy">
+    <property name="queuePrefetch" value="1" />
+  </bean>  
 	<!-- 定义Queue监听器 -->
 	<!-- transaction-manager="jmsTransactionManager" --> 
 	<jms:listener-container destination-type="queue"  container-type="default" acknowledge="client" connection-factory="mqconnectionFactory">
 		<jms:listener destination="test" ref="myMessageHandler" />
-		<jms:listener destination="test" ref="myMessageHandler1" />
-		<!-- <jms:listener destination="test.queue" ref="queueReceiver2"/> -->
+		<jms:listener destination="test" ref="myMessageHandler1" /> 
 	</jms:listener-container>
 		<!-- 定义Queue监听器 -->
 <!-- 	<jms:listener-container destination-type="queue"
