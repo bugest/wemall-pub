@@ -405,6 +405,21 @@
 			<artifactId>zookeeper</artifactId>
 			<version>3.4.9</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.netflix.hystrix/hystrix-core -->
+<dependency>
+    <groupId>com.netflix.hystrix</groupId>
+    <artifactId>hystrix-core</artifactId>
+    <version>1.5.12</version>
+</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-hystrix -->
+<!-- https://mvnrepository.com/artifact/com.netflix.hystrix/hystrix-javanica -->
+<dependency>
+    <groupId>com.netflix.hystrix</groupId>
+    <artifactId>hystrix-javanica</artifactId>
+    <version>1.5.12</version>
+</dependency>
+
+		
 	</dependencies>
 
 

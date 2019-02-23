@@ -49,9 +49,12 @@ public class CategoriesServiceImpl implements CategoriesService {
 		return categoriesDao.selectAllCategories();
 	}
 
-	@Cacheable(value ="cache1",key = "'CategoryModelList'")
+	//@Cacheable(value ="cache1",key = "'CategoryModelList'")
 	public List<CategoryModel> getCategoryModelList() {
 		Object object = RpcContext.getContext().get("token");
+		int a = 1;
+		int b = 0;
+		int i = a/b;
 		List<Categories> categoriesList = categoriesDao.selectAllCategories();
 		// 首先增加全部商家
 		CategoryModel categoryModel = new CategoryModel();
