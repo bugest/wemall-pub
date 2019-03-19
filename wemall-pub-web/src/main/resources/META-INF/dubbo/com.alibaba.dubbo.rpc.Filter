@@ -1,2 +1,3 @@
 dubboContextFilter=com.wemall.bean.test.impl.DubboContextFilter
 hystrixFilter=com.wemall.bean.test.impl.HystrixFilter
+tpsLimitFilter=com.wemall.bean.test.impl.TpsLimitFilter

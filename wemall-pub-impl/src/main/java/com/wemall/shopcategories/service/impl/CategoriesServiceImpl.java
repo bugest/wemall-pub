@@ -105,7 +105,7 @@ public class CategoriesServiceImpl implements CategoriesService {
 		// TODO Auto-generated method stub
 		Categories categories = categoriesDao.selectByPrimaryKey(id);
 		//return categories;
-		return null;
+		return categories;
 	}
 
 	@CacheEvict(key = "'CategoryModelList'")

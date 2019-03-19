@@ -28,9 +28,9 @@
 	<dubbo:service interface="com.wemall.shopcategories.service.CategoriesService"
 		ref="categoriesService" protocol="dubbo" />
 	<dubbo:service interface="com.wemall.shopcategories.service.CategoriesService"
-		ref="categoriesService" protocol="dubbo" filter="hystrixFilter" />	
+		ref="categoriesService" protocol="dubbo" filter="tpsLimitFilter,hystrixFilter" />	
 	<dubbo:service  interface="com.wemall.shopcategories.service.CategoriesService"
-		ref="categoriesService" protocol="dubbo" filter="hystrixFilter"/>			
+		ref="categoriesService" protocol="dubbo" filter="tpsLimitFilter,hystrixFilter"/>			
 	<!--具体实现该接口的 bean -->
 	<bean id="categoriesService"
 		class="com.wemall.shopcategories.service.impl.CategoriesServiceImpl" />
