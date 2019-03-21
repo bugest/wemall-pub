@@ -25,12 +25,12 @@
 		ref="demoService" protocol="dubbo" />
 	<!--具体实现该接口的 bean -->
 	<bean id="demoService" class="com.alibaba.dubbo.demo.impl.DemoServiceImpl" />
+	<!-- <dubbo:service interface="com.wemall.shopcategories.service.CategoriesService"
+		ref="categoriesService" protocol="dubbo" /> -->
 	<dubbo:service interface="com.wemall.shopcategories.service.CategoriesService"
-		ref="categoriesService" protocol="dubbo" />
-	<dubbo:service interface="com.wemall.shopcategories.service.CategoriesService"
-		ref="categoriesService" protocol="dubbo" filter="tpsLimitFilter,hystrixFilter" />	
-	<dubbo:service  interface="com.wemall.shopcategories.service.CategoriesService"
-		ref="categoriesService" protocol="dubbo" filter="tpsLimitFilter,hystrixFilter"/>			
+		ref="categoriesService" protocol="dubbo" filter="tpsLimitFilter,hystrixFilter" >
+		<dubbo:parameter key="tps" value="100"/>
+	</dubbo:service>			
 	<!--具体实现该接口的 bean -->
 	<bean id="categoriesService"
 		class="com.wemall.shopcategories.service.impl.CategoriesServiceImpl" />

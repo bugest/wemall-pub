@@ -1,8 +1,10 @@
 package com.wemall.shopcategories.controller;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import javax.annotation.PostConstruct;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,9 +14,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.disconf.demo.config.JedisConfigTest;
 import com.github.pagehelper.PageInfo;
+import com.netflix.hystrix.HystrixCommandGroupKey;
 import com.wemall.shopcategories.entity.Categories;
 import com.wemall.shopcategories.model.CategoryModel;
 import com.wemall.shopcategories.service.CategoriesService;
+
+import rx.Observable;
+import rx.Observer;
 
 
 @Controller
@@ -94,5 +100,31 @@ public class CategoriesController {
 	@PostConstruct
 	public void test() {
 		System.out.println("11111111111111111");
+	}
+	
+	@ResponseBody
+	@RequestMapping("testcommand") 
+	public String insert1() throws InterruptedException, ExecutionException {
+		MyCommand myCommand = new MyCommand(HystrixCommandGroupKey.Factory.asKey("111"));
+		Observable<String> observe = myCommand.observe();
+		observe.subscribe(new Observer<String>() {
+
+			public void onCompleted() {
+				// TODO Auto-generated method stub
+				System.out.println("compeleted");
+			}
+
+			public void onError(Throwable arg0) {
+				// TODO Auto-generated method stub
+				System.out.println("error");
+			}
+
+			public void onNext(String arg0) {
+				// TODO Auto-generated method stub
+				System.out.println(arg0);
+			}
+	
+		});
+		return "123";
 	}
 }

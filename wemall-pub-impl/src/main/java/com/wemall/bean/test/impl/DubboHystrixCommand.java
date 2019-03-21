@@ -30,6 +30,7 @@ public class DubboHystrixCommand extends HystrixCommand<Result> {
                         .withCircuitBreakerErrorThresholdPercentage(50)//错误率达到50开启熔断保护
                         .withExecutionTimeoutEnabled(false)//使用dubbo的超时，禁用这里的超时
                         )
+                .andThreadPoolKey(HystrixThreadPoolKey.Factory.asKey(invoker.getInterface().getName() + "." + invocation.getMethodName()))
                 .andThreadPoolPropertiesDefaults(HystrixThreadPoolProperties.Setter()
                         .withCoreSize(getThreadPoolCoreSize(invoker.getUrl()))));//线程池为30
  
@@ -77,6 +78,6 @@ public class DubboHystrixCommand extends HystrixCommand<Result> {
             //抛出原本的异常
             return super.getFallback();
         }
-        return new RpcResult("the dubbo fallback.");
+        return new RpcResult("hystrix的拒绝" + super.getFallback());
     }
 }
